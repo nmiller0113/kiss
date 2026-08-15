@@ -17,12 +17,12 @@ for you. The only thing it removes is the stuff you never asked for.
 ## Install
 
 ```
-/plugin marketplace add nmiller0113/kiss
-/plugin install kiss@kiss
+/plugin marketplace add nmiller0113/claude-marketplace
+/plugin install kiss@miller-plugins
 ```
 
 Nothing to configure. The skill loads itself when it applies. Update later with
-`/plugin update kiss@kiss`.
+`/plugin update kiss@miller-plugins`.
 
 Expect shorter answers. Suppressing narration is the design, not a malfunction.
 
