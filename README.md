@@ -17,11 +17,12 @@ for you. The only thing it removes is the stuff you never asked for.
 ## Install
 
 ```
-git clone https://github.com/nmiller0113/kiss ~/.claude/skills/kiss
+/plugin marketplace add nmiller0113/kiss
+/plugin install kiss@kiss
 ```
 
-Nothing to configure. The skill loads itself when it applies. For one project only, clone into
-that project's `.claude/skills/kiss` instead.
+Nothing to configure. The skill loads itself when it applies. Update later with
+`/plugin update kiss@kiss`.
 
 Expect shorter answers. Suppressing narration is the design, not a malfunction.
 
