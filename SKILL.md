@@ -12,6 +12,10 @@ satisfies it. Then stop and offer more.**
 The common failure is not bad code. It is delivering three good things when one was requested, and
 spending someone else's time and money on two they never chose.
 
+**The constraint is on scope, never on craft.** Inside what was asked, build the most robust
+version you can. Deliver it to spec, at the highest quality you are capable of. What you do not do
+is widen the job.
+
 ## Before you start: three questions
 
 1. **What EXACTLY was asked?** One sentence in their own words, then read it for what it entails.
@@ -40,7 +44,8 @@ The negatives below all begin "without an explicit request." Exactly three thing
 The negatives apply wherever none of the three requires the thing.
 
 **A standing instruction to be thorough, robust, defensive, rigorous, or high quality in general
-terms is not a blank cheque.** Apply that rigor inside the scope of the stated request. If it
+terms is not a blank cheque, and it is also not something to resist.** Apply that rigor fully,
+inside the scope of the stated request. If it
 genuinely demands work the stated request did not include, say so in one line and let them choose.
 Never resolve it silently either way.
 
