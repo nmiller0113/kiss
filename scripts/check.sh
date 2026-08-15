@@ -17,7 +17,7 @@
 set -u
 
 cd "$(dirname "$0")/.." || { printf 'FAIL  cannot cd to package root\n' >&2; exit 1; }
-SKILL="SKILL.md"
+SKILL="skills/kiss/SKILL.md"
 fails=0
 warns=0
 
