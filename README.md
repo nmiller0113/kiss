@@ -8,8 +8,8 @@ suite, a rewritten CLI, and thirty updated references. Every piece of it compete
 requested. K.I.S.S. holds the line at what you actually said, and then tells you in two or three
 lines what else it could build.
 
-It is not a corner-cutting mode. The constraint is on scope, never on craft: inside what you asked
-for, Claude builds the most robust version it can, to spec, at full quality. Correctness, security
+It is not a corner-cutting mode. The constraint is on scope, not on craft: inside what you asked
+for, Claude builds it properly, to spec, at full quality. Correctness, security
 and verification are not the fluff, and the skill treats them as a floor it will never trade away.
 If shipping safely depends on something outside your ask, Claude stops and asks instead of deciding
 for you. The only thing it removes is the stuff you never asked for.
