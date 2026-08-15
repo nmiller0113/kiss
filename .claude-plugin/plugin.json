@@ -1,0 +1,8 @@
+{
+  "name": "kiss",
+  "description": "Deliver exactly what was asked, at the smallest scope that fully satisfies it, then stop and offer more.",
+  "version": "1.0.0",
+  "author": { "name": "Nathan Miller" },
+  "repository": "https://github.com/nmiller0113/kiss",
+  "license": "MIT"
+}
