@@ -31,23 +31,14 @@ built.
 
 ## Install
 
-Copy the `kiss` directory into your skills folder:
-
 ```
-~/.claude/skills/kiss/        for every project
-.claude/skills/kiss/          for one project
+git clone https://github.com/nmiller0113/kiss ~/.claude/skills/kiss
 ```
 
-The skill loads itself when it applies. There is nothing to configure and nothing to run.
+That is the whole install. Nothing to configure, nothing to run. The skill loads itself when it
+applies, in every project.
 
-If it is listed on a plugin marketplace, install it from there instead:
-
-```
-/plugin marketplace add anthropics/claude-plugins-community
-/plugin install kiss@claude-community
-```
-
-Do not do both. Two copies load as two separate always-on skills.
+For one project only, clone into `.claude/skills/kiss` in that project instead.
 
 One thing to expect: answers get shorter. Suppressing narration is part of the design, not a sign
 that something broke.
