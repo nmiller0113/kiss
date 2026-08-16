@@ -149,6 +149,15 @@ done < <(grep -oE '(\./)?(scripts|references|assets)/[A-Za-z0-9._/-]+' "$SKILL" 
 # a host, an address); it is not a general secret scanner and is not claimed to be.
 for f in "$SKILL" README.md skills/kiss/REMINDER.md; do
     [ -f "$f" ] || continue
+    # ⭐ TRAVERSAL FIRST, BEFORE ANY MASKING. Masking ~/.claude/<letter> to
+    # INSTALLDIR/ strips the ~/ trigger from paths that merely START there and
+    # then escape: '~/.claude/skills/../../../etc/x' masked clean while
+    # '~/.claude/../.ssh/id_rsa' tripped, which is an arbitrary line. A published
+    # skill has no legitimate use for a relative parent segment in a path, so any
+    # occurrence is a finding rather than something to mask around.
+    if grep -qE '\.\./' "$f"; then
+        fail "$f contains a '../' path segment; it can smuggle a local path past the mask"
+    fi
     # ~/.claude/ is the documented install location, so it is masked before the
     # scan rather than exempted after it: every OTHER tilde path still trips.
     if sed 's|~/\.claude/\([A-Za-z]\)|INSTALLDIR/\1|g' "$f" | grep -E '(/home/|/Users/|~/|[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}|\b([a-z0-9-]+\.)+(local|lan|internal)\b|\b[0-9]{1,3}(\.[0-9]{1,3}){3}\b)' >/dev/null; then
