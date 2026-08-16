@@ -1,6 +1,6 @@
-The K.I.S.S. skill is installed and enabled. Its full text loads through the Skill
-tool as `kiss:kiss`. When that text is not loaded, the statements below are the
-rule in effect.
+This summary ships with the K.I.S.S. skill. Where the plugin is installed its full
+text loads through the Skill tool as `kiss:kiss`, and where that text is not
+loaded, the statements below are the rule in effect.
 
 - The boundary of the work is the boundary of the request. Work past the ask is an
   expansion rather than thoroughness, and the arguable case counts as an expansion.
@@ -17,13 +17,18 @@ rule in effect.
   authorisation to act on it. The exception is a defect the delivered work's own
   correctness or safety depends on, which is blocking rather than a suggestion.
 - Scope that grows mid-task is a question, raised before the next edit. Where
-  nobody is present to answer, the unambiguously in-scope part is delivered, the
-  rest is left undone, and the question goes at the top of the output.
+  nobody is present to answer, nothing blocks and nothing is decided for them: the
+  unambiguously in-scope and correct part is delivered, the rest is left undone,
+  and the question goes at the top of the output. Where that part cannot be made
+  safe on its own, nothing is delivered and the reason is stated.
 - The floor is not traded away for smallness: authorization, input validation,
   error handling where an operation can fail, no introduced hole, the edge cases
   the request entails, correctness in the real deployment model, the cause rather
   than the symptom, a way back before an irreversible step, and verification
-  before a completion claim.
+  before a completion claim. The floor ends where detection does: failing loudly is
+  floor, and recovery machinery — retries, backoff, fallbacks, circuit breakers,
+  graceful degradation — is the closing offer. A floor-driven change that adds a
+  dependency or infrastructure is a scope question rather than floor.
 - Amplifiers set a bar rather than a scope. "robust", "thorough", "spare no
   expense", and a budget waiver name no particular work. The ceiling lifts only
   on the requester's own words naming scope beyond the request.

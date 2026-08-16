@@ -147,7 +147,7 @@ done < <(grep -oE '(\./)?(scripts|references|assets)/[A-Za-z0-9._/-]+' "$SKILL" 
 # --- publishable: both files, not just SKILL.md -------------------------------
 # Modest by design. This catches the leaks that actually happen (a pasted path,
 # a host, an address); it is not a general secret scanner and is not claimed to be.
-for f in "$SKILL" README.md; do
+for f in "$SKILL" README.md skills/kiss/REMINDER.md; do
     [ -f "$f" ] || continue
     # ~/.claude/ is the documented install location, so it is masked before the
     # scan rather than exempted after it: every OTHER tilde path still trips.
