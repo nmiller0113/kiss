@@ -48,11 +48,14 @@ If you want the constraint present in every session regardless, put a short fact
   "hooks": [ { "type": "command", "command": "cat ~/.claude/kiss-reminder.txt" } ] } ] } }
 ```
 
-Keep that file to a dozen declarative lines: the boundary of the work is the boundary of the
-request, a finding outside the ask is one sentence rather than a task, and the floor still ships.
-Write it as statements of fact, not as commands. Claude's prompt-injection defenses will surface
-command-shaped hook text to you instead of absorbing it, which leaves you with a rule that reads
-well and never applies.
+This plugin ships the file for you: `skills/kiss/REMINDER.md` is a declarative summary that
+travels with the skill, so it updates when the skill does and can never drift out of sync with
+it. Point the hook at your installed copy rather than pasting the text somewhere it will go
+stale.
+
+If you write your own instead, write it as statements of fact, not as commands. Claude's
+prompt-injection defenses surface command-shaped hook text to the user rather than absorbing it,
+which leaves you with a rule that reads well and never applies.
 
 ## Using it
 
