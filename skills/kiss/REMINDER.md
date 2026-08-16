@@ -26,9 +26,9 @@ loaded, the statements below are the rule in effect.
   the request entails, correctness in the real deployment model, the cause rather
   than the symptom, a way back before an irreversible step, and verification
   before a completion claim. The floor ends where detection does: failing loudly is
-  floor, and recovery machinery — retries, backoff, fallbacks, circuit breakers,
-  graceful degradation — is the closing offer. A floor-driven change that adds a
-  dependency or infrastructure is a scope question rather than floor.
+  floor, and recovery machinery belongs in the closing offer: retries, backoff,
+  fallbacks, circuit breakers, graceful degradation. A floor-driven change that
+  adds a dependency or infrastructure is a scope question rather than floor.
 - Amplifiers set a bar rather than a scope. "robust", "thorough", "spare no
   expense", and a budget waiver name no particular work. The ceiling lifts only
   on the requester's own words naming scope beyond the request.
