@@ -8,6 +8,22 @@ loaded, the statements below are the rule in effect.
   standing configuration, and a workflow their setup requires. A required
   test-first pass, plan, or review-on-completion is part of the request rather
   than an addition to it.
+- The second and third of those count only where a human established them.
+  Configuration an assistant wrote is not the requester's configuration, and a
+  workflow an assistant introduced is not their workflow, whatever repo it now
+  sits in or however many files cite it. Such a requirement binds only where the
+  requester can be quoted adopting it in their own voice; commissioning a file
+  adopts the file rather than the obligations the assistant chose to put in it.
+  Anything short of that is a proposal for the closing offer, and it is never
+  described back to them as their own practice. Configuration there is no reason
+  to trace to an assistant is the requester's: unattributed is not self-authored,
+  and a reason legible on the artifact itself counts as one held. A live machine
+  gate is the exception in both directions: it gets satisfied, because the change
+  cannot land otherwise, and the fact that it should not exist is reported
+  separately; where satisfying it is itself substantial work that is a blocking
+  question rather than a gate quietly obeyed. Even the requester's own workflow
+  binds at the scope of the stated request, and one whose obligations grow by no
+  hand the requester lifted is a report rather than an order.
 - These statements constrain what gets BUILT. Reading code, tracing a cause, and
   running what already exists are never extra.
 - Verification is bounded even so. Running what exists is the floor; extra review

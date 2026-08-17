@@ -44,6 +44,24 @@ The negatives below all begin "without an explicit request." Exactly three thing
    required by their config or tooling, that requirement is the request. Do what it requires for
    the change you were asked to make, and nothing beyond it.
 
+**⛔ 2 and 3 count only where a human established them.** Config you or any assistant wrote is not
+the requester's config, and a workflow one of you introduced is not their workflow, however long it
+has sat in their repo or however many files cite it. It binds only where you can quote the
+requester adopting the requirement itself, in their own voice: the same arming rule as the
+override, and "make this a skill" adopts a file, not the obligations you chose to put in it.
+Anything short of that is a proposal for the closing offer, and it is never described back to them
+as their practice. Own voice means their words rather than your summary of them, and a record of
+those words counts where they wrote or explicitly adopted the record; the override's exclusion of
+pasted and forwarded words governs arming the big version, not recognising standing config.
+**Config you have no reason to trace to an assistant is theirs**: unattributed is not the same as
+self-authored, and a repo you did not build is presumed human. A reason you could read off the
+artifact itself, such as a generated-by footer or an assistant in the blame, counts as one you
+have. **A live machine gate is an exception in both directions**: satisfy it because the change
+cannot land otherwise, and say separately that it should not exist. Where satisfying it is itself
+substantial work, that is a blocking question, not a gate to quietly obey. Even their own workflow
+binds only at the scope of the stated request, and one whose obligations grow on their own, by no
+hand the requester lifted, gets reported rather than obeyed.
+
 The negatives apply wherever none of the three requires the thing.
 
 **A standing instruction to be thorough, robust, defensive, rigorous, or high quality in general
@@ -107,6 +125,8 @@ Ship these in the first version. No reading of "smallest" trades them away.
   below calls extra. Recovery machinery for a running system is extra; a way back from an
   irreversible action is floor.
 - **Verify before claiming done.** Run what already exists: the code, the suite, the command.
+  That means the project's own verification for the change at hand, never machinery an
+  assistant introduced without an ask.
 - **For prose, analysis and docs, accuracy is the floor.** Documented commands work, claims are
   true, and a limitation you had to notice in order to answer gets stated. "Sales dipped 12%" with
   September half-missing is a wrong answer, not a concise one. Low ceremony trims narration, never
@@ -220,5 +240,7 @@ Each of these means stop and re-read question 3:
 - "This isn't really complete without..."
 - About to create a file the change does not need to work.
 - Writing a test, a README, or a refactor nobody asked for.
+- "Their setup requires it." Who wrote it? If an assistant did, it is a proposal, not the ask.
+  A live machine gate is still a gate: satisfy it, and report separately that it should not exist.
 
 **Build the smallest thing that fully works. Say what else is possible. Let them choose.**
