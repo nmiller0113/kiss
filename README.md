@@ -28,8 +28,8 @@ Expect shorter answers. Suppressing narration is the design, not a malfunction.
 
 ## How it fires
 
-Three ways, in increasing order of reliability. Pick the one that matches how much you want to
-think about it.
+Three ways, in increasing order of reliability. The third is on by default once the plugin is
+installed; the first two are how it reaches Claude in the moment.
 
 **Automatically.** Claude reads the skill's description and loads it when it judges the task
 matches: before the first edit on anything that produces work. No setup, and it is the intended
@@ -38,24 +38,24 @@ path.
 **On demand: `/kiss:kiss`.** Loads it right now. This is the one to reach for when Claude has
 already started sprawling mid-task and you want the rule in front of it immediately.
 
-**Always, via a hook.** Worth understanding the limitation honestly: a skill only enters Claude's
-context when it is *invoked*, and automatic invocation is a judgment call Claude can simply miss.
-If you want the constraint present in every session regardless, put a short factual summary in a
-`SessionStart` hook, which runs at every fresh context including after compaction:
+**Always, automatically: the plugin ships a hook.** Worth understanding the limitation the hook
+exists to fix: a skill only enters Claude's context when it is *invoked*, and automatic invocation
+is a judgment call Claude can simply miss. So installing this plugin also registers a `SessionStart`
+hook that runs at every fresh context, including after compaction, and prints
+`skills/kiss/REMINDER.md`: a declarative summary of the rule that travels with the skill.
 
-```json
-{ "hooks": { "SessionStart": [ { "matcher": "startup|resume|clear|compact",
-  "hooks": [ { "type": "command", "command": "cat ~/.claude/kiss-reminder.txt" } ] } ] } }
-```
+Nothing to configure. Because the summary ships inside the plugin, it updates whenever the plugin
+does, unlike a copy pasted into a hook of your own that goes stale the moment the skill changes.
+The hook prints nothing at all if the file is missing or unreadable, so a broken install fails
+quiet rather than claiming a rule is in force when it is not.
 
-This plugin ships the file for you: `skills/kiss/REMINDER.md` is a declarative summary that
-travels with the skill, so it updates when the skill does and can never drift out of sync with
-it. Point the hook at your installed copy rather than pasting the text somewhere it will go
-stale.
+If you followed the earlier version of these instructions and registered your own `SessionStart`
+hook printing this file, remove it. The plugin now registers one, and two of them just inject the
+same text twice.
 
-If you write your own instead, write it as statements of fact, not as commands. Claude's
-prompt-injection defenses surface command-shaped hook text to the user rather than absorbing it,
-which leaves you with a rule that reads well and never applies.
+If you would rather write your own summary instead, write it as statements of fact, not as
+commands. Claude's prompt-injection defenses surface command-shaped hook text to the user rather
+than absorbing it, which leaves you with a rule that reads well and never applies.
 
 ## Using it
 

@@ -147,8 +147,11 @@ done < <(grep -oE '(\./)?(scripts|references|assets)/[A-Za-z0-9._/-]+' "$SKILL" 
 # --- publishable: both files, not just SKILL.md -------------------------------
 # Modest by design. This catches the leaks that actually happen (a pasted path,
 # a host, an address); it is not a general secret scanner and is not claimed to be.
-for f in "$SKILL" README.md skills/kiss/REMINDER.md; do
+for f in "$SKILL" README.md skills/kiss/REMINDER.md hooks/hooks.json hooks/session-start.sh; do
     [ -f "$f" ] || continue
+    if grep -q $'\r' "$f"; then
+        fail "$f has CRLF line endings; convert to LF"
+    fi
     # ⭐ TRAVERSAL FIRST, BEFORE ANY MASKING. Masking ~/.claude/<letter> to
     # INSTALLDIR/ strips the ~/ trigger from paths that merely START there and
     # then escape: '~/.claude/skills/../../../etc/x' masked clean while
@@ -171,6 +174,22 @@ for f in "$SKILL" README.md skills/kiss/REMINDER.md; do
 done
 
 # --- files a published package must carry -------------------------------------
+# The shipped hook is the plugin's only guarantee that the rule reaches a context, and
+# every way it can fail is silent by design. So check that it exists, is non-empty, is
+# valid JSON, actually names the script it claims to reference, and can execute.
+if [ ! -s hooks/hooks.json ]; then
+    fail "hooks/hooks.json missing or empty; the SessionStart injector does not ship"
+elif command -v python3 >/dev/null 2>&1 \
+        && ! python3 -c 'import json,sys;json.load(open(sys.argv[1]))' hooks/hooks.json 2>/dev/null; then
+    fail "hooks/hooks.json is not valid JSON; the hook will not register"
+elif ! grep -q 'hooks/session-start.sh' hooks/hooks.json; then
+    fail "hooks/hooks.json does not reference hooks/session-start.sh"
+fi
+[ -s hooks/session-start.sh ] || fail "hooks/session-start.sh missing or empty; hooks/hooks.json references it"
+[ -x hooks/session-start.sh ] || fail "hooks/session-start.sh is not executable; the hook will not run"
+# The hook prints this file and nothing else. Absent, it injects silently nothing.
+[ -s skills/kiss/REMINDER.md ] || fail "skills/kiss/REMINDER.md missing or empty; the shipped hook prints nothing"
+
 if [ -f LICENSE ]; then
     ok "LICENSE present"
 else
