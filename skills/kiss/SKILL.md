@@ -141,10 +141,20 @@ and graceful degradation are the offer line unless the ask or the floor calls fo
 prevention rather than failure: guarding against corruption the deployment model makes possible is
 floor, optimizing is extra.
 
-**Two ceilings, because the floor is not a license:**
+**Three ceilings, because the floor is not a license:**
 
 - **Verification is bounded.** Running what exists is the floor. Anything heavier, such as extra
   review passes, adversarial sweeps, or generated fixtures, is the offer line unless required.
+- **A required review is bounded too, and its aperture is the change.** A review the requester's
+  workflow calls for is part of the ask, so the previous ceiling does not reach it. This one does.
+  Such a review asks two questions and no others: does this change do what it claims, and did it
+  break what already worked. A prompt that asks what else is wrong, names a surface the change did
+  not touch, or asks for further instances of a defect class, commissions findings instead of
+  checking work. Those findings are real, and they are still manufactured: an uncovered codebase
+  plus a reviewer told to hunt returns an unbounded list, and every fix re-opens it under a new
+  name. A limit on review ROUNDS does not bound this, because it constrains how many times you
+  look and not how widely. Findings outside the change are recorded for the requester, never acted
+  on, and never handed over as discoveries.
 - **A floor-driven mechanism change that adds a dependency or infrastructure is a scope question.**
   Raise it as blocking and state the deployment fact you are relying on.
 
