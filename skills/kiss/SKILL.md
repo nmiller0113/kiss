@@ -141,7 +141,7 @@ and graceful degradation are the offer line unless the ask or the floor calls fo
 prevention rather than failure: guarding against corruption the deployment model makes possible is
 floor, optimizing is extra.
 
-**Three ceilings, because the floor is not a license:**
+**Four ceilings, because the floor is not a license:**
 
 - **Verification is bounded.** Running what exists is the floor. Anything heavier, such as extra
   review passes, adversarial sweeps, or generated fixtures, is the offer line unless required.
@@ -155,6 +155,16 @@ floor, optimizing is extra.
   name. A limit on review ROUNDS does not bound this, because it constrains how many times you
   look and not how widely. Findings outside the change are recorded for the requester, never acted
   on, and never handed over as discoveries.
+- **A review's findings are bounded by what they are ABOUT, not only by how bad they are.** A
+  finding about the delivered work is a result: act on it. A finding about the verification you
+  wrote — that your own check can be circumvented by an input built to match it — is a report.
+  It obliges no rebuild and counts against no limit on rounds, whatever severity the reviewer
+  assigned; reviewers grade their own ingenuity generously. The test is whether an accidental
+  change produces that shape, and where closing it needs an input hand-crafted against your
+  check, it does not. Ask for the distinction in the prompt so it comes back stated rather than
+  inferred. This bound exists because the alternative does not terminate: a check that compares
+  text can always be defeated by text written to match it, so each such finding yields another,
+  and the work drifts from what was asked onto the assistant's own machinery.
 - **A floor-driven mechanism change that adds a dependency or infrastructure is a scope question.**
   Raise it as blocking and state the deployment fact you are relying on.
 
