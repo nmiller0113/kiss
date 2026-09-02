@@ -4,6 +4,23 @@ Entries start at 1.7.1. Earlier releases are on the repository's releases page; 
 reproduced here, because a history written after the fact is a reconstruction rather than a
 record.
 
+## 1.7.2
+
+The release validator proves its leak pattern still discriminates before it trusts that
+pattern's results, and the pattern is now defined once instead of inlined at the scan site.
+
+This exists because the rewrite of that pattern in 1.7.1 was checked against a hand-made
+corpus that could not have failed: it contained no host or address sitting next to a dot or a
+hyphen, which is exactly what a wrong boundary class breaks. A corpus that cannot fail is not
+a test. This one can: substituting the wrong class flips ten of its lines.
+
+The corpus covers hosts and addresses adjacent to a period, hyphen, colon, comma, quote,
+paren and bracket, and a tilde dotfile path. That last one matters most here, because this
+validator deliberately masks `~/.claude/` before grepping, and folding that mask into the
+pattern is the plausible way to break the tilde alternative without noticing.
+
+Nothing changes for anyone installing the plugin: the skill and the hook are untouched.
+
 ## 1.7.1
 
 Portability. The skill text is unchanged; this is about the machines the plugin can install
