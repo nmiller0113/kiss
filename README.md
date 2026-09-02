@@ -84,6 +84,20 @@ your sentence names, expires when that work is delivered, and never lifts the fl
 
 Claude can suggest the big version. Only you turn it on.
 
+## Requirements
+
+The skill itself needs nothing: it is text, and it loads on every platform Claude Code runs
+on.
+
+The shipped hook needs a POSIX shell. Claude Code runs a hook's command string through `sh`
+on macOS and Linux, and through Git Bash on Windows, and this plugin's hook is POSIX shell
+(it avoids bash-only syntax deliberately, so a minimal image with no bash still runs it). On
+Windows without Git Bash, Claude Code falls back to PowerShell, which cannot read it: the
+hook reports a non-blocking start-up error and the skill still loads and works normally. If
+you are on Windows, install Git Bash and the hook works as documented.
+
+No distro is assumed, no package manager, and no path layout.
+
 ## License
 
 MIT.

@@ -1,7 +1,7 @@
 {
   "name": "kiss",
   "description": "Deliver exactly what was asked, at the smallest scope that fully satisfies it, then stop and offer more.",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "author": {
     "name": "Nathan Miller"
   },

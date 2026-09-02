@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 # SessionStart hook for the K.I.S.S. plugin.
 #
 # Prints the shipped scope summary (skills/kiss/REMINDER.md) so it is in the

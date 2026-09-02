@@ -1,0 +1,8 @@
+# Normalise text files to LF in the repository and on checkout, on every platform.
+#
+# Without this, a Windows clone with core.autocrlf=true rewrites tracked files to CRLF and
+# breaks two things at once: hooks/session-start.sh carrying CRLF dies on its first line
+# (hooks.json hands the path to sh, so the shebang is never read and the trailing carriage
+# return makes "set -u" a syntax error), and scripts/check.sh explicitly fails any shipped
+# file that contains CRLF, so the repository would reject its own checkout.
+* text=auto eol=lf

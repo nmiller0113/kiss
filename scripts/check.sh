@@ -17,6 +17,21 @@
 set -u
 
 cd "$(dirname "$0")/.." || { printf 'FAIL  cannot cd to package root\n' >&2; exit 1; }
+
+# Python is optional to this validator, and its spelling is not universal: a stock Windows
+# install carries `python`, not `python3`. Probing only `python3` meant the hooks.json JSON
+# validation below went quiet on such a box while the run still exited 0. Resolve it once so
+# every check agrees on what "no Python" means. The absence is announced once below, after
+# warn() exists.
+PY=""
+for _c in python3 python; do
+    command -v "$_c" >/dev/null 2>&1 || continue
+    # Probe the VERSION, not just the spelling, so a box whose `python` is 2.7 is not mistaken
+    # for a working Python 3.
+    "$_c" -c 'import sys; sys.exit(sys.version_info[0] < 3)' 2>/dev/null || continue
+    PY=$_c; break
+done
+
 SKILL="skills/kiss/SKILL.md"
 fails=0
 warns=0
@@ -25,6 +40,10 @@ fail() { printf 'FAIL  %s\n' "$1" >&2; fails=$((fails + 1)); }
 warn() { printf 'WARN  %s\n' "$1" >&2; warns=$((warns + 1)); }
 ok()   { printf 'ok    %s\n' "$1"; }
 done_() { printf '\n%d fail, %d warn\n' "$fails" "$warns"; [ "$fails" -eq 0 ]; }
+
+# The hooks.json JSON-validity check below needs an interpreter. Without one it skips, and a
+# silent skip in a release validator reads as a pass. Say it once, here.
+[ -n "$PY" ] || warn "no Python 3 on PATH as python3 or python; the hooks.json JSON-validity check is SKIPPED"
 
 [ -f "$SKILL" ] || { fail "$SKILL not found"; done_; exit 1; }
 
@@ -163,7 +182,20 @@ for f in "$SKILL" README.md skills/kiss/REMINDER.md hooks/hooks.json hooks/sessi
     fi
     # ~/.claude/ is the documented install location, so it is masked before the
     # scan rather than exempted after it: every OTHER tilde path still trips.
-    if sed 's|~/\.claude/\([A-Za-z]\)|INSTALLDIR/\1|g' "$f" | grep -E '(/home/|/Users/|~/|[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}|\b([a-z0-9-]+\.)+(local|lan|internal)\b|\b[0-9]{1,3}(\.[0-9]{1,3}){3}\b)' >/dev/null; then
+    # POSIX ERE only, no \b. \b is a GNU extension rather than standard ERE: where a grep
+    # lacks it, it degrades to a literal "b" and the internal-hostname and IP alternatives
+    # match nothing while the scan still prints "ok" -- a leak check that fails open and
+    # silently. This is NOT a macOS story: Apple's grep passes REG_ENHANCED, which enables \b,
+    # and FreeBSD's bsdgrep links libregex, which also honours it -- both verified, one of them
+    # on a real Mac. POSIX ERE simply does not define \b, so the risk is a non-GNU libc regex
+    # engine such as musl. That case is plausible and was NOT reproduced, so it is a reason to
+    # prefer the portable spelling, not a bug anyone has observed.
+    # The boundary class is the complement of \w, [^A-Za-z0-9_], because that is exactly what
+    # \b is a boundary BETWEEN. Writing it as [^A-Za-z0-9._-] instead, which looks more
+    # careful, silently stops matching a host or an IP that is adjacent to a dot or a hyphen:
+    # x.192.168.1.1 and box.local-x both went undetected. Checked against \b across a corpus
+    # including those adjacencies, and unlike \b it means the same thing everywhere.
+    if sed 's|~/\.claude/\([A-Za-z]\)|INSTALLDIR/\1|g' "$f" | grep -E '(/home/|/Users/|~/|[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}|(^|[^A-Za-z0-9_])([a-z0-9-]+\.)+(local|lan|internal)([^A-Za-z0-9_]|$)|(^|[^A-Za-z0-9_])[0-9]{1,3}(\.[0-9]{1,3}){3}([^A-Za-z0-9_]|$))' >/dev/null; then
         fail "$f contains a local path, address, internal hostname, or IP"
     else
         ok "$f: no local paths, addresses or hosts"
@@ -176,17 +208,20 @@ done
 # --- files a published package must carry -------------------------------------
 # The shipped hook is the plugin's only guarantee that the rule reaches a context, and
 # every way it can fail is silent by design. So check that it exists, is non-empty, is
-# valid JSON, actually names the script it claims to reference, and can execute.
+# valid JSON, actually names the script it claims to reference, and is non-empty.
 if [ ! -s hooks/hooks.json ]; then
     fail "hooks/hooks.json missing or empty; the SessionStart injector does not ship"
-elif command -v python3 >/dev/null 2>&1 \
-        && ! python3 -c 'import json,sys;json.load(open(sys.argv[1]))' hooks/hooks.json 2>/dev/null; then
+elif [ -n "$PY" ] \
+        && ! "$PY" -c 'import json,sys;json.load(open(sys.argv[1]))' hooks/hooks.json 2>/dev/null; then
     fail "hooks/hooks.json is not valid JSON; the hook will not register"
 elif ! grep -q 'hooks/session-start.sh' hooks/hooks.json; then
     fail "hooks/hooks.json does not reference hooks/session-start.sh"
 fi
 [ -s hooks/session-start.sh ] || fail "hooks/session-start.sh missing or empty; hooks/hooks.json references it"
-[ -x hooks/session-start.sh ] || fail "hooks/session-start.sh is not executable; the hook will not run"
+# No executable-bit check. hooks.json runs this file by handing its path to an interpreter,
+# which reads it and never needs the bit, so the check tested a property nothing here
+# consults and its message ("the hook will not run") was false. The bit is also not portable
+# -- git on Windows does not track it -- but that is the lesser reason.
 # The hook prints this file and nothing else. Absent, it injects silently nothing.
 [ -s skills/kiss/REMINDER.md ] || fail "skills/kiss/REMINDER.md missing or empty; the shipped hook prints nothing"
 
